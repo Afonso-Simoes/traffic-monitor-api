@@ -43,6 +43,15 @@ This project implements a REST API using Django Rest Framework to monitor road t
 * **Documentation:** `http://localhost:8000/api/docs/`
 * **Admin Panel:** `http://localhost:8000/admin/` (User: `admin`, Password: `admin`)
 
+### Default users
+The migrations automatically create two users for testing and administration:
+* **Admin User:**
+  - `Username: admin`
+  - `Password: admin`
+* **Standard User:**
+  - `Username: traffic_user`
+  - `Password: password123`
+
 ### Authentication Notes
 The API uses **Token-based authentication**. To make authenticated requests (e.g., `DELETE`, `POST`), you must include an `Authorization` header.
 * The header must be in the format: `Authorization: Token <your_token>`
