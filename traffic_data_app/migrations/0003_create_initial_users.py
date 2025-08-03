@@ -3,25 +3,27 @@ from django.db import migrations
 def create_initial_users(apps, schema_editor):
     from django.contrib.auth.models import User
 
+    # Check if the 'admin' superuser already exists
     if not User.objects.filter(username='admin').exists():
         User.objects.create_superuser(
             username='admin',
             email='admin@example.com',
             password='admin'
         )
-        print("Superutilizador 'admin' criado.")
+        print("Superuser 'admin' created.")
     else:
-        print("Superutilizador 'admin' já existe.")
+        print("Superuser 'admin' already exists.")
 
+    # Check if the 'traffic_user' exists
     if not User.objects.filter(username='traffic_user').exists():
         User.objects.create_user(
             username='traffic_user',
             email='user@example.com',
             password='password123'
         )
-        print("Utilizador 'traffic_user' criado.")
+        print("User 'traffic_user' created.")
     else:
-        print("Utilizador 'traffic_user' já existe.")
+        print("User 'traffic_user' already exists.")
 
 class Migration(migrations.Migration):
 

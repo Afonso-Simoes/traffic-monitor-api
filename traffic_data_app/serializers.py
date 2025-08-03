@@ -4,6 +4,7 @@ from django.contrib.gis.geos import LineString
 
 
 class TrafficReadingSerializer(serializers.ModelSerializer):
+    """Serializer for the TrafficReading model."""
     segment = serializers.PrimaryKeyRelatedField(queryset=RoadSegment.objects.all())
 
     class Meta:
@@ -24,6 +25,7 @@ class TrafficReadingSerializer(serializers.ModelSerializer):
 
 
 class RoadSegmentSerializer(serializers.ModelSerializer):
+    """Serializer for the RoadSegment model."""
     long_start = serializers.SerializerMethodField(read_only=True)
     lat_start = serializers.SerializerMethodField(read_only=True)
     long_end = serializers.SerializerMethodField(read_only=True)
@@ -34,8 +36,6 @@ class RoadSegmentSerializer(serializers.ModelSerializer):
     long_end_write = serializers.FloatField(write_only=True)
     lat_end_write = serializers.FloatField(write_only=True)
 
-    # traffic_readings = TrafficReadingSerializer(many=True, read_only=True)
-
     readings_count = serializers.IntegerField(read_only=True)
 
     class Meta:
@@ -45,7 +45,6 @@ class RoadSegmentSerializer(serializers.ModelSerializer):
             "uuid",
             "name",
             "length",
-            # "traffic_readings",
             "long_start",
             "lat_start",
             "long_end",
@@ -59,7 +58,6 @@ class RoadSegmentSerializer(serializers.ModelSerializer):
         read_only_fields = (
             "id",
             "uuid",
-            # "traffic_readings",
             'readings_count'
         )
 
@@ -79,6 +77,7 @@ class RoadSegmentSerializer(serializers.ModelSerializer):
         return obj.traffic_readings.count()
 
     def create(self, validated_data):
+        # Extract the write-only fields to create the LineString
         long_start = validated_data.pop("long_start_write")
         lat_start = validated_data.pop("lat_start_write")
         long_end = validated_data.pop("long_end_write")

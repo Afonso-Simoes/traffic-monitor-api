@@ -4,26 +4,14 @@ services:
   django_api:
     build: . 
     container_name: django_api
-    # command: >
-    #   sh -c "python manage.py wait_for_db &&
-    #          python manage.py migrate &&
-    #          python manage.py import_traffic_data &&
-    #          python manage.py runserver 0.0.0.0:8000"
     command: >
       sh -c "while ! pg_isready -h db -U trafficuser; do sleep 1; done &&
       python manage.py migrate --no-input &&
       python manage.py runserver 0.0.0.0:8000"
-    # entrypoint: 
-    #   ["/bin/sh", "/app/entrypoint.sh"]
     volumes:
       - .:/app
     ports:
       - "8000:8000"
-    # environment:
-    #   POSTGRES_DB: ${POSTGRES_DB}
-    #   POSTGRES_USER: ${POSTGRES_USER}
-    #   POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-    #   DB_HOST: ${DB_HOST}
     env_file:
       - .env
     depends_on:

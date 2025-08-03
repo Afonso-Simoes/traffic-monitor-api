@@ -31,13 +31,11 @@ class RoadSegmentViewSet(viewsets.ModelViewSet):
         return Response({'readings_count': count})
 
     def create(self, request, *args, **kwargs):
-        print("Corpo da requisição:", request.body)
-        print("Dados da requisição:", request.data)
+        print("Request body:", request.body)
+        print("Request data:", request.data)
 
-        # Este log vai mostrar a informação
-        logger.info(f"Recebi uma requisição POST com os dados: {request.data}")
+        logger.info(f"Received a POST request with data: {request.data}")
 
-        # O super() vai chamar o método original da viewset
         return super().create(request, *args, **kwargs)
 
 

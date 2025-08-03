@@ -3,6 +3,9 @@ from django.db.models import OuterRef, Subquery
 from .models import RoadSegment, TrafficReading
 
 class RoadSegmentFilter(django_filters.FilterSet):
+    """
+    A filter set for RoadSegment to filter by the characterization of the last reading.
+    """
     last_reading_characterization = django_filters.CharFilter(
         method='filter_by_last_reading_characterization'
     )
@@ -12,19 +15,16 @@ class RoadSegmentFilter(django_filters.FilterSet):
         fields = ['last_reading_characterization']
 
     def filter_by_last_reading_characterization(self, queryset, name, value):
-        # AQUI - A aplicação define o intervalo de velocidades antes da query
         speed_ranges = {
-            'elevada': (50, 999),
-            'media': (20, 49.99),
-            'baixa': (0, 19.99),
+            'high_speed': (50, 999),
+            'medium_speed': (20, 49.99),
+            'low_speed': (0, 19.99),
         }
         
         speed_range = speed_ranges.get(value)
         if not speed_range:
             return queryset.none()
 
-        # A query à base de dados já inclui as restrições de velocidade.
-        # Isto é muito mais eficiente.
         last_reading_subquery = TrafficReading.objects.filter(
             segment=OuterRef('pk'),
             speed_measured__gte=speed_range[0],
