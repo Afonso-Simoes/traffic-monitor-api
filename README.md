@@ -12,8 +12,6 @@ This project implements a REST API using Django Rest Framework to monitor road t
 * **Data Seeding:** Includes a management command to populate the database with sample data.
 * **Filtering:** Allows filtering of road segments based on the traffic intensity of the last reading.
 * **Tests:** Contains unit tests for the API functionalities and permissions system.
-* **Part 3:** Implements endpoints for ingesting sensor data and searching for car passages.
-
 ---
 
 ## How to Run the Project
@@ -45,9 +43,21 @@ This project implements a REST API using Django Rest Framework to monitor road t
 * **Documentation:** `http://localhost:8000/api/docs/`
 * **Admin Panel:** `http://localhost:8000/admin/` (User: `admin`, Password: `admin`)
 
+### Authentication Notes
+The API uses **Token-based authentication**. To make authenticated requests (e.g., `DELETE`, `POST`), you must include an `Authorization` header.
+* The header must be in the format: `Authorization: Token <your_token>`
+* You can generate tokens in the Django admin panel.
+
+### Importing Data
+* **Only works if the dtabase is empty**
+    ```bash
+    docker-compose run --rm django_api python manage.py import_traffic_data
+    ```
+---
+
 ### Tests
 * **Run tests:**
     ```bash
-    docker-compose exec django_api python manage.py test
+    docker-compose run --rm django_api python manage.py test
     ```
 ---
