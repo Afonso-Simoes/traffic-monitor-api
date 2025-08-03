@@ -28,7 +28,15 @@ This project implements a REST API using Django Rest Framework to monitor road t
     git clone https://github.com/Afonso-Simoes/traffic-monitor-api.git
     ```
 
-2.  **Start the containers:**
+2.  **Create .env file (exemple):**
+    ```bash
+    POSTGRES_DB=trafficdb
+    POSTGRES_USER=trafficuser
+    POSTGRES_PASSWORD=trafficpassword
+    DB_HOST=db
+    ```
+
+3.  **Start the containers:**
     ```bash
     docker-compose up -d --build
     ```
